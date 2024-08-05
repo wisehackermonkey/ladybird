@@ -33,6 +33,16 @@ wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | 
 # Use the key to authorize an entry for apt.kitware.com in apt sources list
 echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/kitware.list
 
+# If the above fails with 
+# "E: The repository 'https://apt.kitware.com/ubuntu virginia Release' does not have a Release file."
+# Try 
+# Ubuntu Noble Numbat (24.04): 
+# echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ noble main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+# Ubuntu Jammy Jellyfish (22.04): 
+# echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+# Ubuntu Focal Fossa (20.04): 
+# echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | sudo tee /etc/apt/sources.list.d/kitware.list >/dev/null
+
 # Update apt package list and install cmake
 sudo apt update -y && sudo apt install cmake -y
 ```
@@ -44,15 +54,16 @@ sudo apt update -y && sudo apt install cmake -y
 ```bash
 # Add LLVM GPG signing key
 sudo wget -O /usr/share/keyrings/llvm-snapshot.gpg.key https://apt.llvm.org/llvm-snapshot.gpg.key
-
+```
 # Optional: Verify the GPG key manually
 
 # Use the key to authorize an entry for apt.llvm.org in apt sources list
+```bash
 echo "deb [signed-by=/usr/share/keyrings/llvm-snapshot.gpg.key] https://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc)-18 main" | sudo tee -a /etc/apt/sources.list.d/llvm.list
-
-# Update apt package list and install clang and associated packages
-sudo apt update -y && sudo apt install clang-18 clangd-18 clang-format-18 clang-tidy-18 lld-18 -y
 ```
+# Update apt package list and install clang and associated packages
+```
+sudo apt update -y && sudo apt install clang-18 clangd-18 clang-format-18 clang-tidy-18 lld-18 -y
 
 - Alternative: Install gcc-13 or newer from [Ubuntu Toolchain PPA](https://launchpad.net/~ubuntu-toolchain-r/+archive/ubuntu/test):
 
